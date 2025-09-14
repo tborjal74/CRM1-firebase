@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore'; 
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
@@ -21,17 +20,15 @@ const firebaseConfig = {
 };
 const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider('6Le1YskrAAAAAMCfGxPZLSmN7yif5o4NjH9IRKYs'),
+
+  isTokenAutoRefreshEnabled: true
   });
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 // Auth for Firebase
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
-db.collection('todos').getDocs();
-const todosCol = collection(db,'todos');
-const snapshot = awaitgetDocs(todosCol);
+const auth = getAuth(firebaseConfig);
+const db = getFirestore(firebaseConfig);
 
 //Detect auth state
 onAuthStateChanged(auth, user => {
