@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore'; 
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,6 +19,10 @@ const firebaseConfig = {
   appId: "1:951669850060:web:91ccbe16e938663249e769",
   measurementId: "G-QK0H3M64J3"
 };
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6Le1YskrAAAAAMCfGxPZLSmN7yif5o4NjH9IRKYs'),
+  });
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
