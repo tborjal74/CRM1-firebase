@@ -1,6 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import {getFirestore} from 'firebase/firestore'; 
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,6 +20,26 @@ const firebaseConfig = {
   measurementId: "G-QK0H3M64J3"
 };
 
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LedXskrAAAAAA363-337q7J7gUkJnXejaBU2Ys5'),
+  });
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+// Auth for Firebase
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+db.collection('todos').getDocs();
+const todosCol = collection(db,'todos');
+const snapshot = awaitgetDocs(todosCol);
+
+
+//Detect auth state
+onAuthStateChanged(auth, user => {
+    if(user != null) {
+        console.log('logged in!');
+    } else {
+        console.log('No user');
+    }
+});
