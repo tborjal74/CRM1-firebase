@@ -24,13 +24,9 @@ app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
 const express = require('express');
-const app = express();
 const customerRoutes = require('./routes/customerRoutes');
 const admin = require('firebase-admin');
 const serviceAccount = require('')
 
 app.use(express.json());
 app.use('/api/customers', customerRoutes);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend server running on port ${PORT}`));
