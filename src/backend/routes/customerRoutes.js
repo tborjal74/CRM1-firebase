@@ -6,3 +6,13 @@ router.get('/', customerController.getAllCustomers);
 router.post('/', customerController.addCustomer);
 
 module.exports = router;
+
+/** Swagger Documentation
+ * @swagger
+ * /api/customers:
+ *   get:
+ *     summary: Get all customers
+ *     responses:
+ *       200:
+ *         description: Success
+ */
