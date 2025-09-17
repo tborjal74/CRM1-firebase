@@ -19,10 +19,6 @@ app.use(express.json());
 app.get('/api/test', (req, res) => {
 	res.json({ message: 'Backend is working and connected to Firebase!' });
 });
-
-app.get('/', (req, res) => {
-  res.send('Backend is running!');
-});
 const customerRoutes = require('./routes/customerRoutes');
 
 const swaggerOptions = {
