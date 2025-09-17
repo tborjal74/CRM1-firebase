@@ -34,7 +34,7 @@ const swaggerOptions = {
       description: 'API documentation for CRM1 backend',
     },
   },
-  apis: ['./src/backend/routes/*.js'], // Path to route files
+  apis: [path.join(__dirname, 'routes/*.js')],// Path to route files
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -47,5 +47,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
-
-app.use(express.json());
