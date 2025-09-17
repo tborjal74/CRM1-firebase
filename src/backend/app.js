@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 });
 const customerRoutes = require('./routes/customerRoutes');
 
-const swaggerOptions = {
+/* const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
@@ -35,11 +35,21 @@ const swaggerOptions = {
     },
   },
   apis: [path.resolve(__dirname, 'routes/*.js')], // Path to route files
+}; */
+const swaggerDocument = {
+  openapi: '3.0.0',
+  info: {
+    title: 'CRM1 API',
+    version: '1.0.0',
+    description: 'Minimal Swagger UI test',
+  },
+  paths: {},
 };
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
+//const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+//app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/customers', customerRoutes);
 
 // Start the server
