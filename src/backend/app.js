@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Sample route
-app.get('/', (req, res) => {
+app.get('/api/test', (req, res) => {
 	res.json({ message: 'Backend is working and connected to Firebase!' });
 });
 
@@ -34,7 +34,7 @@ const swaggerOptions = {
       description: 'API documentation for CRM1 backend',
     },
   },
-  apis: ['./src/backend/routes/*.js'], // Path to route files
+  apis: [path.join(__dirname, 'routes/*.js')], // Path to route files
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -48,4 +48,3 @@ app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
 
-app.use(express.json());
