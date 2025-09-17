@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/tborjal74/CRM1-firebase#readme",
   "dependencies": {
-    "firebase": "^12.2.1"
+    "express": "^5.1.0",
+    "firebase": "^12.2.1",
+    "firebase-admin": "^13.5.0"
   }
 }
