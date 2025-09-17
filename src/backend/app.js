@@ -1,6 +1,8 @@
 const express = require('express');
 const admin = require('firebase-admin');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require ('swagger-jsdoc');
 
 // Path to your service account key JSON file
 const serviceAccount = require(path.join(__dirname, '../../crm1-e85dc-firebase-adminsdk-fbsvc-1a9ad4e13e.json'));
@@ -25,5 +27,19 @@ app.listen(PORT, () => {
 });
 const customerRoutes = require('./routes/customerRoutes');
 
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'CRM1 API',
+      version: '1.0.0',
+      description: 'API documentation for CRM1 backend',
+    },
+  },
+  apis: ['./src/backend/routes/*.js'], // Path to your route files
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
 app.use(express.json());
+app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/customers', customerRoutes);
