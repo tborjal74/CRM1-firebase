@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 app.get('/', (req, res) => {
   res.send('Backend is running!');
 });
+const customerRoutes = require('./routes/customerRoutes');
 
 const swaggerOptions = {
   definition: {
