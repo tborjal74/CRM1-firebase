@@ -34,7 +34,7 @@ const swaggerOptions = {
       description: 'API documentation for CRM1 backend',
     },
   },
-  apis: [path.join(__dirname, 'routes/*.js')], // Path to route files
+  apis: [path.resolve(__dirname, 'routes/*.js')], // Path to route files
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

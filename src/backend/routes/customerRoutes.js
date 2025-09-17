@@ -5,7 +5,6 @@ const customerController = require('../controllers/customerController');
 router.get('/', customerController.getAllCustomers);
 router.post('/', customerController.addCustomer);
 
-module.exports = router;
 
 /** Swagger Documentation
  * @swagger
@@ -16,3 +15,5 @@ module.exports = router;
  *       200:
  *         description: Success
  */
+
+module.exports = router;
