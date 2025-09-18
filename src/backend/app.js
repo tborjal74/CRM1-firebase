@@ -46,7 +46,7 @@ const swaggerOptions = {
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
-const salesRoutes = require('./routes/salesRoutes');
+const salesRoutes = require('./routes/salesRoute');
 
 app.use('/api/sales', salesRoutes);
 app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
