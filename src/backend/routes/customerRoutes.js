@@ -5,6 +5,9 @@ const customerController = require('../controllers/customerController');
 router.get('/', customerController.getAllCustomers);
 router.post('/', customerController.addCustomer);
 
+router.put('/:id', customerController.editCustomer);
+router.delete('/:id', customerController.deleteCustomer);
+
 
 /** Swagger Documentation
  * @swagger
