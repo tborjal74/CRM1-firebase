@@ -32,6 +32,7 @@ app.get('/api/test', (req, res) => {
 	res.json({ message: 'Backend is working and connected to Firebase!' });
 });
 const customerRoutes = require('./routes/customerRoutes');
+const loginRoute = require('./routes/loginRoute');
 
 const swaggerOptions = {
   definition: {
@@ -51,6 +52,8 @@ const salesRoutes = require('./routes/salesRoute');
 app.use('/api/sales', salesRoutes);
 app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/customers', customerRoutes);
+
+app.use('/api/login', loginRoute);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
