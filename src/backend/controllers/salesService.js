@@ -1,3 +1,6 @@
+const Sale = require('../models/sales');
+const sales = [];
+
 const admin = require('firebase-admin');
 const db = admin.database();
 const salesRef = db.ref('sales');

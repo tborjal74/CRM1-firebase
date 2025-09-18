@@ -1,5 +1,5 @@
 const Customer = require('../models/customer');
-// Simulate database with in-memory array (replace with Firebase calls later)
+// Simulate database with in-memory array
 const customers = [];
 
 const admin = require('firebase-admin');
