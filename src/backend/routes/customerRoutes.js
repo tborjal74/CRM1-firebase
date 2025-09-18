@@ -8,6 +8,8 @@ router.post('/', customerController.addCustomer);
 router.put('/:id', customerController.editCustomer);
 router.delete('/:id', customerController.deleteCustomer);
 
+module.exports = router;
+
 
 /** Swagger Documentation
  * @swagger
@@ -18,5 +20,3 @@ router.delete('/:id', customerController.deleteCustomer);
  *       200:
  *         description: Success
  */
-
-module.exports = router;
