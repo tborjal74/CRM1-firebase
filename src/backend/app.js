@@ -10,6 +10,18 @@ const serviceAccount = require(path.join(__dirname, '../../crm1-e85dc-firebase-a
 // Initialize Firebase Admin SDK
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://crm1-e85dc-default-rtdb.asia-southeast1.firebasedatabase.app/'
+});
+
+const db = admin.database();
+const ref = db.ref('path/to/data');
+
+// Write data
+ref.set({ key: 'value' });
+
+// Read data
+ref.once('value', (snapshot) => {
+  console.log(snapshot.val());
 });
 
 const app = express();
