@@ -1,10 +1,12 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import firebaseApp from '../firebase'; // Create and export your firebaseApp instance
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import firebaseApp from '../firebase';
 
-const Login = () => {
+const AuthForm = () => {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,6 +14,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
     const auth = getAuth(firebaseApp);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -26,8 +30,6 @@ const Login = () => {
       if (response.ok) {
         setSuccess('Login successful!');
         setError('');
-        // Handle successful login (e.g., save user info, redirect)
-        console.log('User info:', data);
         setTimeout(() => {
           navigate('/home', { state: { user: email } });
         }, 1000);
@@ -36,19 +38,31 @@ const Login = () => {
         setSuccess('');
       }
     } catch (err) {
-      if (err.code === 'auth/invalid-credential' || err.message.includes('auth/invalid-credential')) {
-        setError('Login failed. Incorrect email or password.');
-      } else {
-        setError(err.message);
-      }
+      setError(err.message);
+      setSuccess('');
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    const auth = getAuth(firebaseApp);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setSuccess('Signup successful! Please login.');
+      setError('');
+      setIsLogin(true);
+    } catch (err) {
+      setError(err.message);
       setSuccess('');
     }
   };
 
   return (
     <div className="login-container">
-      <form onSubmit={handleLogin} className="login-form">
-        <h2 className="login-title">Welcome to CRM 1</h2>
+      <form onSubmit={isLogin ? handleLogin : handleSignup} className="login-form">
+        <h2 className="login-title">{isLogin ? 'Login to CRM 1' : 'Sign Up for CRM 1'}</h2>
         {success && <div className="login-success">{success}</div>}
         <input
           type="email"
@@ -66,11 +80,18 @@ const Login = () => {
           required
           className="login-input"
         />
-        <button type="submit" className="login-button">Login</button>
+        <button type="submit" className="login-button">{isLogin ? 'Login' : 'Sign Up'}</button>
         {error && <div className="login-error">{error}</div>}
+        <div className="login-toggle">
+          {isLogin ? (
+            <span>Don't have an account? <button type="button" onClick={() => setIsLogin(false)} className="login-link">Sign Up</button></span>
+          ) : (
+            <span>Already have an account? <button type="button" onClick={() => setIsLogin(true)} className="login-link">Login</button></span>
+          )}
+        </div>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default AuthForm;

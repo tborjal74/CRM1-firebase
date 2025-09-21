@@ -7,10 +7,14 @@ const db = admin.database();
 const customersRef = db.ref('customers');
 
 exports.getAllCustomers = (req, res) => {
+  // Get UID from authenticated user (set by auth middleware)
+  const uid = req.user && req.user.uid;
   customersRef.once('value', (snapshot) => {
     const data = snapshot.val() || {};
-    // Convert object to array
-    const customerList = Object.keys(data).map(id => ({ id, ...data[id] }));
+    // Convert object to array and filter by uid, ignore records without uid
+    const customerList = Object.keys(data)
+      .map(id => ({ id, ...data[id] }))
+      .filter(customer => customer.uid && customer.uid === uid);
     res.json(customerList);
   }, (error) => {
     res.status(500).json({ error: error.message });
@@ -19,8 +23,9 @@ exports.getAllCustomers = (req, res) => {
 
 exports.addCustomer = (req, res) => {
   const { name, email, phone } = req.body;
+  const uid = req.user && req.user.uid;
   const newCustomerRef = customersRef.push();
-  const newCustomer = { name, email, phone };
+  const newCustomer = { name, email, phone, uid };
   newCustomerRef.set(newCustomer, (error) => {
     if (error) {
       res.status(500).json({ error: error.message });
