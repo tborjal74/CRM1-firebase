@@ -37,15 +37,15 @@ const Home = () => {
         <section className="crm-stats">
           <div className="crm-card">
             <h2>Total Customers</h2>
-            <p>128</p>
+            <p>N/A</p>
           </div>
           <div className="crm-card">
             <h2>Total Sales</h2>
-            <p>$24,500</p>
+            <p>N/A</p>
           </div>
           <div className="crm-card">
             <h2>Open Tickets</h2>
-            <p>5</p>
+            <p>N/A</p>
           </div>
         </section>
         <section className="crm-welcome">
