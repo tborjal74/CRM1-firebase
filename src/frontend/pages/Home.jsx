@@ -9,6 +9,32 @@ const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(location.state?.user || '');
+  const [customerCount, setCustomerCount] = useState(null);
+
+  React.useEffect(() => {
+    // Fetch customer list from backend API with auth token
+    const fetchCustomers = async () => {
+      try {
+        const auth = getAuth(firebaseApp);
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          setCustomerCount(0);
+          return;
+        }
+        const token = await currentUser.getIdToken();
+        const res = await fetch('/api/customers', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        setCustomerCount(Array.isArray(data) ? data.length : 0);
+      } catch {
+        setCustomerCount(0);
+      }
+    };
+    fetchCustomers();
+  }, []);
 
   const handleLogout = async () => {
     const auth = getAuth(firebaseApp);
@@ -21,7 +47,7 @@ const Home = () => {
       <section className="crm-stats">
         <div className="crm-card">
           <h2>Total Customers</h2>
-          <p>N/A</p>
+          <p>{customerCount !== null ? customerCount : 'Loading...'}</p>
         </div>
         <div className="crm-card">
           <h2>Total Sales</h2>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import firebaseApp from '../firebase';
 
 const CustomerList = () => {
@@ -29,7 +29,15 @@ const CustomerList = () => {
   };
 
   useEffect(() => {
-    fetchCustomers();
+    const auth = getAuth(firebaseApp);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchCustomers();
+      } else {
+        setCustomers([]);
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
   // Handle form input
@@ -87,8 +95,8 @@ const CustomerList = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Customers</h2>
-      <form onSubmit={handleSubmit} className="mb-8 flex gap-4 flex-wrap items-center bg-gray-50 p-4 rounded-lg shadow">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Customer List</h2>
+      <form onSubmit={handleSubmit} className="mb-12 flex gap-4 flex-wrap items-center bg-gray-50 p-4 rounded-lg shadow">
         <input
           type="text"
           name="name"
@@ -96,7 +104,7 @@ const CustomerList = () => {
           value={form.name}
           onChange={handleChange}
           required
-          className="border px-3 py-2 rounded w-40 focus:outline-blue-400"
+          className="crm-input crm-input-name"
         />
         <input
           type="email"
@@ -105,7 +113,7 @@ const CustomerList = () => {
           value={form.email}
           onChange={handleChange}
           required
-          className="border px-3 py-2 rounded w-56 focus:outline-blue-400"
+          className="crm-input crm-input-email"
         />
         <input
           type="text"
@@ -113,63 +121,53 @@ const CustomerList = () => {
           placeholder="Phone Number"
           value={form.phone}
           onChange={handleChange}
-          className="border px-3 py-2 rounded w-32 focus:outline-blue-400"
+          className="crm-input crm-input-phone"
         />
-        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded font-semibold shadow">
+        <button type="submit" className="crm-btn-add">
           {editing ? 'Update' : 'Add'}
         </button>
         {editing && (
           <button
             type="button"
             onClick={() => { setEditing(false); setForm({ name: '', email: '', phone: '', id: null }); }}
-            className="bg-gray-400 hover:bg-gray-500 text-white px-5 py-2 rounded font-semibold shadow"
+            className="crm-btn-cancel"
           >
             Cancel
           </button>
         )}
       </form>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow">
-          <thead>
-            <tr className="bg-blue-50 text-gray-700">
-              <th className="px-4 py-3 text-left">Name</th>
-              <th className="px-4 py-3 text-left">Email</th>
-              <th className="px-4 py-3 text-left">Phone</th>
-              <th className="px-4 py-3 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-400">No customers found.</td>
-              </tr>
-            ) : (
-              customers.map((c) => (
-                <tr key={c.id} className="hover:bg-blue-50 transition">
-                  <td className="px-4 py-2">
-                    <div className="w-10 h-10 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 font-bold text-lg">
-                      {c.name ? c.name.charAt(0).toUpperCase() : '?'}
-                    </div>
-                  </td>
-                  <td className="px-4 py-2 font-semibold text-gray-800">{c.name}</td>
-                  <td className="px-4 py-2 text-gray-700">{c.email}</td>
-                  <td className="px-4 py-2 text-gray-700">{c.phone || '-'}</td>
-                  <td className="px-4 py-2">
-                    <button
-                      onClick={() => handleEdit(c)}
-                      className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded mr-2 font-semibold shadow"
-                    >Edit</button>
-                    <button
-                      onClick={() => handleDelete(c.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded font-semibold shadow"
-                    >Delete</button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <br></br>
+  <div className="overflow-x-auto mt-8">
+      <table className="crm-table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {customers.length === 0 ? (
+        <tr>
+          <td colSpan={4} className="text-center py-8 text-gray-400 text-lg">No customers found.</td>
+        </tr>
+      ) : (
+        customers.map((c, idx) => (
+          <tr key={c.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+            <td className="font-medium text-gray-900">{c.name}</td>
+            <td className="text-gray-700">{c.email}</td>
+            <td className="text-gray-700">{c.phone || '-'}</td>
+            <td>
+              <button onClick={() => handleEdit(c)} className="crm-action-btn edit">Edit</button>
+              <button onClick={() => handleDelete(c.id)} className="crm-action-btn delete">Delete</button>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
     </div>
   );
 };
