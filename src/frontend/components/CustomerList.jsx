@@ -5,7 +5,7 @@ const CustomerList = () => {
   useEffect(() => {
     fetch('/api/customers')
       .then((res) => res.json())
-      .then((data) => setCustomers(data));
+      .then((data) => setCustomers(Array.isArray(data) ? data : []));
   }, []);
 
   return (
