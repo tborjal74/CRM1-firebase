@@ -29,7 +29,7 @@ const Login = () => {
         // Handle successful login (e.g., save user info, redirect)
         console.log('User info:', data);
         setTimeout(() => {
-          navigate('/home');
+          navigate('/home', { state: { user: email } });
         }, 1000);
       } else {
         setError(data.error || 'Login failed');
