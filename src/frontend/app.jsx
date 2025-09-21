@@ -1,12 +1,12 @@
-import './styles/tailwind.css';
+import './styles/styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Dashboard from './pages/Dashboard';
+import Login from './pages/login';
 
 function App() {
   return (
     <div>
-      <Dashboard />
+      <Login />
     </div>
   );
 }
