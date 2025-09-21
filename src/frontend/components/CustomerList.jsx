@@ -12,8 +12,11 @@ const CustomerList = () => {
     const auth = getAuth(firebaseApp);
     const user = auth.currentUser;
     if (user) {
+      console.log('Current user email:', user.email);
+      console.log('Current user UID:', user.uid);
       return await user.getIdToken();
     }
+    console.log('No user logged in');
     return null;
   };
 
@@ -21,6 +24,7 @@ const CustomerList = () => {
   const fetchCustomers = async () => {
     const token = await getToken();
     if (!token) return setCustomers([]);
+    console.log('Token being sent for fetchCustomers:', token);
     fetch('/api/customers', {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -50,6 +54,7 @@ const CustomerList = () => {
     e.preventDefault();
     const token = await getToken();
     if (!token) return;
+    console.log('Token being sent for handleSubmit:', token);
     if (editing) {
       fetch(`/api/customers/${form.id}`, {
         method: 'PUT',
@@ -84,6 +89,7 @@ const CustomerList = () => {
   const handleDelete = async (id) => {
     const token = await getToken();
     if (!token) return;
+    console.log('Token being sent for handleDelete:', token);
     if (window.confirm('Delete this customer?')) {
       fetch(`/api/customers/${id}`, {
         method: 'DELETE',
