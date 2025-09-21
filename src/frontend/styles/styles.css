@@ -1,3 +1,60 @@
+/* CRM Customer List Table Styles */
+.crm-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.crm-table th {
+  background: #e3f0ff;
+  color: #2d3748;
+  font-weight: 600;
+  padding: 16px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.crm-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.crm-table tr:nth-child(even) {
+  background: #f7fafc;
+}
+
+.crm-action-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-right: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: background 0.2s;
+}
+
+.crm-action-btn.edit {
+  background: #ffe066;
+  color: #444;
+}
+
+.crm-action-btn.delete {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.crm-action-btn.edit:hover {
+  background: #ffd43b;
+}
+
+.crm-action-btn.delete:hover {
+  background: #fa5252;
+}
 .login-container {
   min-height: 100vh;
   display: flex;
