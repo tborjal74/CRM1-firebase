@@ -9,6 +9,7 @@ const customersRef = db.ref('customers');
 exports.getAllCustomers = (req, res) => {
   // Get UID from authenticated user (set by auth middleware)
   const uid = req.user && req.user.uid;
+  console.log('Fetching customers for UID:', uid);
   customersRef.once('value', (snapshot) => {
     const data = snapshot.val() || {};
     // Convert object to array and filter by uid, ignore records without uid
@@ -24,6 +25,7 @@ exports.getAllCustomers = (req, res) => {
 exports.addCustomer = (req, res) => {
   const { name, email, phone } = req.body;
   const uid = req.user && req.user.uid;
+  console.log('Adding customer for UID:', uid);
   const newCustomerRef = customersRef.push();
   const newCustomer = { name, email, phone, uid };
   newCustomerRef.set(newCustomer, (error) => {

@@ -6,10 +6,25 @@ import firebaseApp from '../firebase';
 const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const user = location.state?.user || '';
+  const [userEmail, setUserEmail] = React.useState('');
+
+  React.useEffect(() => {
+    const { getAuth } = require('firebase/auth');
+    const auth = getAuth(firebaseApp);
+    setUserEmail(auth.currentUser?.email || '');
+  }, []);
 
   const handleLogout = async () => {
     const auth = getAuth(firebaseApp);
+    const user = auth.currentUser;
+    if (user) {
+      const token = await user.getIdToken();
+      // Call backend logout route
+      await fetch('/api/logout', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    }
     await signOut(auth);
     navigate('/login');
   };
@@ -30,7 +45,7 @@ const Layout = () => {
       <main className="crm-main-content">
         <header className="crm-header">
           <h1>Welcome back!</h1>
-          <span className="crm-user">{user}</span>
+          <span className="crm-user">{userEmail}</span>
         </header>
         <Outlet />
       </main>
