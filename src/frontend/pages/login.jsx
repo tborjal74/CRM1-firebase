@@ -6,6 +6,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,13 +22,21 @@ const Login = () => {
       });
       const data = await response.json();
       if (response.ok) {
+        setSuccess('Login successful!');
+        setError('');
         // Handle successful login (e.g., save user info, redirect)
         console.log('User info:', data);
       } else {
         setError(data.error || 'Login failed');
+        setSuccess('');
       }
     } catch (err) {
-      setError(err.message);
+      if (err.code === 'auth/invalid-credential' || err.message.includes('auth/invalid-credential')) {
+        setError('Login failed. Incorrect email or password.');
+      } else {
+        setError(err.message);
+      }
+      setSuccess('');
     }
   };
 
@@ -35,6 +44,7 @@ const Login = () => {
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2 className="login-title">Welcome to CRM 1</h2>
+        {success && <div className="login-success">{success}</div>}
         <input
           type="email"
           value={email}

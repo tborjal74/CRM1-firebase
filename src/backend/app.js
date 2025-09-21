@@ -53,10 +53,17 @@ app.use('/api/sales', salesRoutes);
 app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/customers', customerRoutes);
 
+
 app.use('/api/login', loginRoute);
+
+// Global error handler to always return JSON
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

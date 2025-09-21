@@ -19,11 +19,12 @@
 }
 
 .login-title {
-  color: #2563eb;
+  color: #000207;
   text-align: center;
   margin-bottom: 24px;
   font-size: 1.7em;
   font-weight: 700;
+  font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 
 .form-group {
@@ -80,7 +81,7 @@
 }
 
 .login-button {
-  width: 60%;
+  width: 30%;
   height: 44px;
   margin: 0 auto;
   display: block;
