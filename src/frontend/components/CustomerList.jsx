@@ -6,16 +6,19 @@ const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
   const [form, setForm] = useState({ name: '', email: '', phone: '', id: null });
   const [editing, setEditing] = useState(false);
+  const [userInfo, setUserInfo] = useState({ email: '', uid: '' });
 
   // Get Firebase ID token
   const getToken = async () => {
     const auth = getAuth(firebaseApp);
     const user = auth.currentUser;
     if (user) {
+      setUserInfo({ email: user.email, uid: user.uid });
       console.log('Current user email:', user.email);
       console.log('Current user UID:', user.uid);
       return await user.getIdToken();
     }
+    setUserInfo({ email: '', uid: '' });
     console.log('No user logged in');
     return null;
   };
@@ -101,6 +104,9 @@ const CustomerList = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
+      <div className="mb-4 p-2 bg-blue-50 rounded">
+        <strong>Current User:</strong> {userInfo.email || 'None'}<br />
+      </div>
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Customer List</h2>
       <form onSubmit={handleSubmit} className="mb-12 flex gap-4 flex-wrap items-center bg-gray-50 p-4 rounded-lg shadow">
         <input

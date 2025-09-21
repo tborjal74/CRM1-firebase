@@ -26,7 +26,17 @@ const Layout = () => {
       });
     }
     await signOut(auth);
-    navigate('/login');
+    // Wait for signOut to complete and verify
+    setTimeout(() => {
+      const afterLogoutUser = getAuth(firebaseApp).currentUser;
+      console.log('After logout, currentUser:', afterLogoutUser);
+      if (!afterLogoutUser) {
+        console.log('Logout successful, no user logged in.');
+      } else {
+        console.warn('Logout failed, user still logged in:', afterLogoutUser.email);
+      }
+      navigate('/login');
+    }, 500);
   };
 
   return (

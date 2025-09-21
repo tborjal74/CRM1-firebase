@@ -16,6 +16,8 @@ exports.getAllCustomers = (req, res) => {
     const customerList = Object.keys(data)
       .map(id => ({ id, ...data[id] }))
       .filter(customer => customer.uid && customer.uid === uid);
+  console.log('Returned customer UIDs:', customerList.map(c => c.uid));
+  console.log('Returned customer objects:', customerList);
     res.json(customerList);
   }, (error) => {
     res.status(500).json({ error: error.message });
