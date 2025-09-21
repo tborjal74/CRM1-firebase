@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import firebaseApp from '../firebase'; // Create and export your firebaseApp instance
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,6 +28,9 @@ const Login = () => {
         setError('');
         // Handle successful login (e.g., save user info, redirect)
         console.log('User info:', data);
+        setTimeout(() => {
+          navigate('/home');
+        }, 1000);
       } else {
         setError(data.error || 'Login failed');
         setSuccess('');
