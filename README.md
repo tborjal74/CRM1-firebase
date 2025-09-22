@@ -39,8 +39,6 @@
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-
 - Add visual analytics for the customers, sales and tickets in the Dashboard
 - Add a profile page for the user
 - Implement reset password feature using Firebase where an email will be sent to the user to reset his/her password
