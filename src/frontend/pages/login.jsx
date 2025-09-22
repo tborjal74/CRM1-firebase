@@ -9,6 +9,7 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -47,12 +48,17 @@ const AuthForm = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
     const auth = getAuth(firebaseApp);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setSuccess('Signup successful! Please login.');
       setError('');
       setIsLogin(true);
+      setConfirmPassword('');
     } catch (err) {
       setError(err.message);
       setSuccess('');
@@ -60,8 +66,8 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={isLogin ? handleLogin : handleSignup} className="login-form">
+    <div className="login-container" style={{ fontFamily: 'Verdana, Geneva, Tahoma, sans-serif' }}>
+      <form onSubmit={isLogin ? handleLogin : handleSignup} className="login-form" style={{ fontFamily: 'inherit' }}>
         <h2 className="login-title">{isLogin ? 'Login to CRM 1' : 'Sign Up for CRM 1'}</h2>
         {success && <div className="login-success">{success}</div>}
         <input
@@ -71,6 +77,7 @@ const AuthForm = () => {
           placeholder="Email"
           required
           className="login-input"
+          style={{ fontFamily: 'inherit' }}
         />
         <input
           type="password"
@@ -79,14 +86,31 @@ const AuthForm = () => {
           placeholder="Password"
           required
           className="login-input"
+          style={{ fontFamily: 'inherit' }}
         />
-        <button type="submit" className="login-button">{isLogin ? 'Login' : 'Sign Up'}</button>
+        {!isLogin && (
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            placeholder="Re-enter Password"
+            required
+            className="login-input"
+            style={{ fontFamily: 'inherit' }}
+          />
+        )}
+        <button
+          type="submit"
+          className="login-button login-btn-wide"
+        >
+          {isLogin ? 'Login' : 'Sign Up'}
+        </button>
         {error && <div className="login-error">{error}</div>}
-        <div className="login-toggle">
+        <div className="login-toggle" style={{ fontFamily: 'inherit' }}>
           {isLogin ? (
-            <span>Don't have an account? <button type="button" onClick={() => setIsLogin(false)} className="login-link">Sign Up</button></span>
+            <span>Don't have an account? <button type="button" onClick={() => setIsLogin(false)} className="login-link" style={{ fontFamily: 'inherit', background: 'none', color: '#2563eb', textDecoration: 'underline', border: 'none', padding: 0, fontSize: '1em', cursor: 'pointer' }}>Sign Up</button></span>
           ) : (
-            <span>Already have an account? <button type="button" onClick={() => setIsLogin(true)} className="login-link">Login</button></span>
+            <span>Already have an account? <button type="button" onClick={() => setIsLogin(true)} className="login-link" style={{ fontFamily: 'inherit', background: 'none', color: '#2563eb', textDecoration: 'underline', border: 'none', padding: 0, fontSize: '1em', cursor: 'pointer' }}>Login</button></span>
           )}
         </div>
       </form>

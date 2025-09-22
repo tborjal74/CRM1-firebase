@@ -48,6 +48,7 @@ const Layout = () => {
             <li><Link to="/">Dashboard</Link></li>
             <li><Link to="/customers">Customers</Link></li>
             <li><Link to="/sales">Sales</Link></li>
+            <li><Link to="#">Tickets</Link></li>
             <li><button onClick={handleLogout} className="logout-link">Logout</button></li>
           </ul>
         </nav>
